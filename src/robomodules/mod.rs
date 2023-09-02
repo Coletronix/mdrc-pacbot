@@ -1,6 +1,5 @@
 use anyhow::Error;
 use byteorder::{BigEndian, ReadBytesExt};
-use num_enum::{IntoPrimitive, TryFromPrimitive};
 use protobuf::Message;
 use std::io::{Cursor, Read, Write};
 use std::net::TcpStream;
@@ -8,32 +7,15 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::thread;
 use std::thread::JoinHandle;
 
+pub mod message;
 pub mod protos;
 
-const MAGIC_HEADER: u16 = 17380;
-const SUBSCRIBE_TYPE: u16 = 15000;
-const SUBSCRIBE_HEADER: [u8; 4] = [
-    (MAGIC_HEADER >> 8) as u8,
-    MAGIC_HEADER as u8,
-    (SUBSCRIBE_TYPE >> 8) as u8,
-    SUBSCRIBE_TYPE as u8,
-];
+use message::MAGIC_HEADER;
+
+use crate::robomodules::message::{write_message, Msg};
+use message::MsgType;
+
 const SIZE_HEADER: usize = 12; // size of two u16s + one u64
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq, IntoPrimitive, TryFromPrimitive)]
-#[repr(u16)]
-pub enum MsgType {
-    LightState = 0,
-    PacmanLocation = 1,
-    FullState = 2,
-}
-
-#[derive(Debug)]
-pub enum ClientMsg {
-    LightState(protos::light_state::LightState),
-    PacmanLocation(protos::pacman_state::PacmanState_AgentState),
-    FullState(protos::pacman_state::PacmanState),
-}
 
 enum ClientCommand {
     Close,
@@ -44,14 +26,14 @@ enum ClientCommand {
 pub struct Client {
     handler: JoinHandle<()>,
     command_sender: Sender<ClientCommand>,
-    pub msg_receiver: Receiver<ClientMsg>,
+    pub msg_receiver: Receiver<Msg>,
 }
 
 struct ThreadedClient {
     stream: TcpStream,
 
     receiver: Receiver<ClientCommand>,
-    sender: Sender<ClientMsg>,
+    sender: Sender<Msg>,
 
     subscriptions: [u16; 3],
 
@@ -105,7 +87,7 @@ impl ThreadedClient {
     pub fn new(
         addr: String,
         port: u16,
-        sender: Sender<ClientMsg>,
+        sender: Sender<Msg>,
         receiver: Receiver<ClientCommand>,
     ) -> Result<Self, Error> {
         let stream = TcpStream::connect(format!("{}:{}", addr, port))?;
@@ -141,22 +123,22 @@ impl ThreadedClient {
                             sub.set_dir(protos::subscribe::Subscribe_Direction::SUBSCRIBE);
                             sub.set_msg_types(vec![msg_type as u16 as i32]);
 
-                            let bytes = sub.write_to_bytes().unwrap();
-                            let len = bytes.len() as u64;
-
-                            // construct message - SUBSCRIBE_HEADER + len + bytes
-                            let mut msg = Vec::new();
-                            msg.extend_from_slice(&SUBSCRIBE_HEADER);
-                            msg.extend_from_slice(&len.to_be_bytes());
-                            msg.extend_from_slice(&bytes);
-
-                            // send message
-                            self.stream.write(&msg).unwrap();
+                            self.stream
+                                .write(write_message(Msg::Subscribe(sub)).as_slice())
+                                .unwrap();
                         }
                     }
                     ClientCommand::Unsubscribe(msg_type) => {
                         if self.subscriptions[msg_type as usize] == 1 {
                             self.subscriptions[msg_type as usize] = 0;
+
+                            let mut sub = protos::subscribe::Subscribe::new();
+                            sub.set_dir(protos::subscribe::Subscribe_Direction::UNSUBSCRIBE);
+                            sub.set_msg_types(vec![msg_type as u16 as i32]);
+
+                            self.stream
+                                .write(write_message(Msg::Subscribe(sub)).as_slice())
+                                .unwrap();
                         }
                     }
                 }
@@ -212,20 +194,18 @@ impl ThreadedClient {
         match msg_type {
             0 => {
                 let light_state = protos::light_state::LightState::parse_from_bytes(msg).unwrap();
-                self.sender
-                    .send(ClientMsg::LightState(light_state))
-                    .unwrap();
+                self.sender.send(Msg::LightState(light_state)).unwrap();
             }
             1 => {
                 let pacman_location =
                     protos::pacman_state::PacmanState_AgentState::parse_from_bytes(msg).unwrap();
                 self.sender
-                    .send(ClientMsg::PacmanLocation(pacman_location))
+                    .send(Msg::PacmanLocation(pacman_location))
                     .unwrap();
             }
             2 => {
                 let full_state = protos::pacman_state::PacmanState::parse_from_bytes(msg).unwrap();
-                self.sender.send(ClientMsg::FullState(full_state)).unwrap();
+                self.sender.send(Msg::FullState(full_state)).unwrap();
             }
             _ => {}
         }
