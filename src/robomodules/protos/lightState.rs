@@ -17,7 +17,7 @@
 #![allow(trivial_casts)]
 #![allow(unused_imports)]
 #![allow(unused_results)]
-//! Generated file from `src/protobuf/definitions/lightState.proto`
+//! Generated file from `src/robomodules/definitions/lightState.proto`
 
 /// Generated files are compatible only with the same version
 /// of protobuf runtime.
@@ -941,22 +941,22 @@ impl ::protobuf::reflect::ProtobufValue for LightState_GhostState {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n)src/protobuf/definitions/lightState.proto\x12\ngameEngine\"\xfc\x04\n\
-    \nLightState\x129\n\x06pacman\x18\x01\x20\x02(\x0b2!.gameEngine.LightSta\
-    te.AgentStateR\x06pacman\x12>\n\tred_ghost\x18\x02\x20\x02(\x0b2!.gameEn\
-    gine.LightState.AgentStateR\x08redGhost\x12@\n\npink_ghost\x18\x03\x20\
-    \x02(\x0b2!.gameEngine.LightState.AgentStateR\tpinkGhost\x12D\n\x0corang\
-    e_ghost\x18\x04\x20\x02(\x0b2!.gameEngine.LightState.AgentStateR\x0boran\
-    geGhost\x12@\n\nblue_ghost\x18\x05\x20\x02(\x0b2!.gameEngine.LightState.\
-    AgentStateR\tblueGhost\x12\x16\n\x06cherry\x18\x0c\x20\x02(\x08R\x06cher\
-    ry\x123\n\x04mode\x18\x06\x20\x02(\x0e2\x1f.gameEngine.LightState.GameMo\
-    deR\x04mode\x12\x14\n\x05score\x18\x08\x20\x02(\x05R\x05score\x12\x14\n\
-    \x05lives\x18\x0b\x20\x02(\x05R\x05lives\x1aa\n\nAgentState\x12\x0c\n\
-    \x01x\x18\x01\x20\x02(\x05R\x01x\x12\x0c\n\x01y\x18\x02\x20\x02(\x05R\
-    \x01y\x127\n\x05state\x18\x04\x20\x01(\x0e2!.gameEngine.LightState.Ghost\
-    StateR\x05state\"#\n\x08GameMode\x12\x0b\n\x07RUNNING\x10\0\x12\n\n\x06P\
-    AUSED\x10\x01\"(\n\nGhostState\x12\n\n\x06NORMAL\x10\0\x12\x0e\n\nFRIGHT\
-    ENED\x10\x01\
+    \n,src/robomodules/definitions/lightState.proto\x12\ngameEngine\"\xfc\
+    \x04\n\nLightState\x129\n\x06pacman\x18\x01\x20\x02(\x0b2!.gameEngine.Li\
+    ghtState.AgentStateR\x06pacman\x12>\n\tred_ghost\x18\x02\x20\x02(\x0b2!.\
+    gameEngine.LightState.AgentStateR\x08redGhost\x12@\n\npink_ghost\x18\x03\
+    \x20\x02(\x0b2!.gameEngine.LightState.AgentStateR\tpinkGhost\x12D\n\x0co\
+    range_ghost\x18\x04\x20\x02(\x0b2!.gameEngine.LightState.AgentStateR\x0b\
+    orangeGhost\x12@\n\nblue_ghost\x18\x05\x20\x02(\x0b2!.gameEngine.LightSt\
+    ate.AgentStateR\tblueGhost\x12\x16\n\x06cherry\x18\x0c\x20\x02(\x08R\x06\
+    cherry\x123\n\x04mode\x18\x06\x20\x02(\x0e2\x1f.gameEngine.LightState.Ga\
+    meModeR\x04mode\x12\x14\n\x05score\x18\x08\x20\x02(\x05R\x05score\x12\
+    \x14\n\x05lives\x18\x0b\x20\x02(\x05R\x05lives\x1aa\n\nAgentState\x12\
+    \x0c\n\x01x\x18\x01\x20\x02(\x05R\x01x\x12\x0c\n\x01y\x18\x02\x20\x02(\
+    \x05R\x01y\x127\n\x05state\x18\x04\x20\x01(\x0e2!.gameEngine.LightState.\
+    GhostStateR\x05state\"#\n\x08GameMode\x12\x0b\n\x07RUNNING\x10\0\x12\n\n\
+    \x06PAUSED\x10\x01\"(\n\nGhostState\x12\n\n\x06NORMAL\x10\0\x12\x0e\n\nF\
+    RIGHTENED\x10\x01\
 ";
 
 static file_descriptor_proto_lazy: ::protobuf::rt::LazyV2<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::rt::LazyV2::INIT;

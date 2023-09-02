@@ -1,5 +1,5 @@
 //! Utilities for writing blazingly fast Pacbot code
 
 pub mod grid;
-mod protobuf;
+mod robomodules;
 pub mod standard_grids;

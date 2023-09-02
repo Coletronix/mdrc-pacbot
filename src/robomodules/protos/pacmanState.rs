@@ -17,7 +17,7 @@
 #![allow(trivial_casts)]
 #![allow(unused_imports)]
 #![allow(unused_results)]
-//! Generated file from `src/protobuf/definitions/pacmanState.proto`
+//! Generated file from `src/robomodules/definitions/pacmanState.proto`
 
 /// Generated files are compatible only with the same version
 /// of protobuf runtime.
@@ -1257,31 +1257,31 @@ impl ::protobuf::reflect::ProtobufValue for PacmanState_Direction {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n*src/protobuf/definitions/pacmanState.proto\x12\ngameEngine\"\x8d\x08\
-    \n\x0bPacmanState\x12:\n\x06pacman\x18\x01\x20\x02(\x0b2\".gameEngine.Pa\
-    cmanState.AgentStateR\x06pacman\x12?\n\tred_ghost\x18\x02\x20\x02(\x0b2\
-    \".gameEngine.PacmanState.AgentStateR\x08redGhost\x12A\n\npink_ghost\x18\
-    \x03\x20\x02(\x0b2\".gameEngine.PacmanState.AgentStateR\tpinkGhost\x12E\
-    \n\x0corange_ghost\x18\x04\x20\x02(\x0b2\".gameEngine.PacmanState.AgentS\
-    tateR\x0borangeGhost\x12A\n\nblue_ghost\x18\x05\x20\x02(\x0b2\".gameEngi\
-    ne.PacmanState.AgentStateR\tblueGhost\x124\n\x04mode\x18\x06\x20\x02(\
-    \x0e2\x20.gameEngine.PacmanState.GameModeR\x04mode\x12)\n\x10frightened_\
-    timer\x18\x07\x20\x02(\x05R\x0ffrightenedTimer\x12\x14\n\x05score\x18\
-    \x08\x20\x02(\x05R\x05score\x127\n\x04grid\x18\t\x20\x03(\x0e2#.gameEngi\
-    ne.PacmanState.GridElementR\x04grid\x12!\n\x0cgrid_columns\x18\n\x20\x02\
-    (\x05R\x0bgridColumns\x12\x14\n\x05lives\x18\x0b\x20\x02(\x05R\x05lives\
-    \x12!\n\x0cupdate_ticks\x18\x0c\x20\x02(\x05R\x0bupdateTicks\x12(\n\x10t\
-    icks_per_update\x18\r\x20\x02(\x05R\x0eticksPerUpdate\x12!\n\x0celapsed_\
-    time\x18\x0e\x20\x01(\x02R\x0belapsedTime\x1a\x98\x01\n\nAgentState\x12\
-    \x0c\n\x01x\x18\x01\x20\x02(\x05R\x01x\x12\x0c\n\x01y\x18\x02\x20\x02(\
-    \x05R\x01y\x12?\n\tdirection\x18\x03\x20\x01(\x0e2!.gameEngine.PacmanSta\
-    te.DirectionR\tdirection\x12-\n\x12frightened_counter\x18\x04\x20\x01(\
-    \x05R\x11frightenedCounter\">\n\x08GameMode\x12\t\n\x05CHASE\x10\0\x12\
-    \x0b\n\x07SCATTER\x10\x01\x12\x0e\n\nFRIGHTENED\x10\x02\x12\n\n\x06PAUSE\
-    D\x10\x03\"L\n\x0bGridElement\x12\x08\n\x04WALL\x10\0\x12\n\n\x06PELLET\
-    \x10\x01\x12\x10\n\x0cPOWER_PELLET\x10\x02\x12\t\n\x05EMPTY\x10\x03\x12\
-    \n\n\x06CHERRY\x10\x04\"2\n\tDirection\x12\x06\n\x02UP\x10\0\x12\x08\n\
-    \x04DOWN\x10\x01\x12\x08\n\x04LEFT\x10\x02\x12\t\n\x05RIGHT\x10\x03\
+    \n-src/robomodules/definitions/pacmanState.proto\x12\ngameEngine\"\x8d\
+    \x08\n\x0bPacmanState\x12:\n\x06pacman\x18\x01\x20\x02(\x0b2\".gameEngin\
+    e.PacmanState.AgentStateR\x06pacman\x12?\n\tred_ghost\x18\x02\x20\x02(\
+    \x0b2\".gameEngine.PacmanState.AgentStateR\x08redGhost\x12A\n\npink_ghos\
+    t\x18\x03\x20\x02(\x0b2\".gameEngine.PacmanState.AgentStateR\tpinkGhost\
+    \x12E\n\x0corange_ghost\x18\x04\x20\x02(\x0b2\".gameEngine.PacmanState.A\
+    gentStateR\x0borangeGhost\x12A\n\nblue_ghost\x18\x05\x20\x02(\x0b2\".gam\
+    eEngine.PacmanState.AgentStateR\tblueGhost\x124\n\x04mode\x18\x06\x20\
+    \x02(\x0e2\x20.gameEngine.PacmanState.GameModeR\x04mode\x12)\n\x10fright\
+    ened_timer\x18\x07\x20\x02(\x05R\x0ffrightenedTimer\x12\x14\n\x05score\
+    \x18\x08\x20\x02(\x05R\x05score\x127\n\x04grid\x18\t\x20\x03(\x0e2#.game\
+    Engine.PacmanState.GridElementR\x04grid\x12!\n\x0cgrid_columns\x18\n\x20\
+    \x02(\x05R\x0bgridColumns\x12\x14\n\x05lives\x18\x0b\x20\x02(\x05R\x05li\
+    ves\x12!\n\x0cupdate_ticks\x18\x0c\x20\x02(\x05R\x0bupdateTicks\x12(\n\
+    \x10ticks_per_update\x18\r\x20\x02(\x05R\x0eticksPerUpdate\x12!\n\x0cela\
+    psed_time\x18\x0e\x20\x01(\x02R\x0belapsedTime\x1a\x98\x01\n\nAgentState\
+    \x12\x0c\n\x01x\x18\x01\x20\x02(\x05R\x01x\x12\x0c\n\x01y\x18\x02\x20\
+    \x02(\x05R\x01y\x12?\n\tdirection\x18\x03\x20\x01(\x0e2!.gameEngine.Pacm\
+    anState.DirectionR\tdirection\x12-\n\x12frightened_counter\x18\x04\x20\
+    \x01(\x05R\x11frightenedCounter\">\n\x08GameMode\x12\t\n\x05CHASE\x10\0\
+    \x12\x0b\n\x07SCATTER\x10\x01\x12\x0e\n\nFRIGHTENED\x10\x02\x12\n\n\x06P\
+    AUSED\x10\x03\"L\n\x0bGridElement\x12\x08\n\x04WALL\x10\0\x12\n\n\x06PEL\
+    LET\x10\x01\x12\x10\n\x0cPOWER_PELLET\x10\x02\x12\t\n\x05EMPTY\x10\x03\
+    \x12\n\n\x06CHERRY\x10\x04\"2\n\tDirection\x12\x06\n\x02UP\x10\0\x12\x08\
+    \n\x04DOWN\x10\x01\x12\x08\n\x04LEFT\x10\x02\x12\t\n\x05RIGHT\x10\x03\
 ";
 
 static file_descriptor_proto_lazy: ::protobuf::rt::LazyV2<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::rt::LazyV2::INIT;
