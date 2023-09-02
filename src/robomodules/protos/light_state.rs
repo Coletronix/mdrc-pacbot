@@ -17,7 +17,7 @@
 #![allow(trivial_casts)]
 #![allow(unused_imports)]
 #![allow(unused_results)]
-//! Generated file from `src/robomodules/definitions/lightState.proto`
+//! Generated file from `src/robomodules/definitions/light_state.proto`
 
 /// Generated files are compatible only with the same version
 /// of protobuf runtime.
@@ -941,7 +941,7 @@ impl ::protobuf::reflect::ProtobufValue for LightState_GhostState {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n,src/robomodules/definitions/lightState.proto\x12\ngameEngine\"\xfc\
+    \n-src/robomodules/definitions/light_state.proto\x12\ngameEngine\"\xfc\
     \x04\n\nLightState\x129\n\x06pacman\x18\x01\x20\x02(\x0b2!.gameEngine.Li\
     ghtState.AgentStateR\x06pacman\x12>\n\tred_ghost\x18\x02\x20\x02(\x0b2!.\
     gameEngine.LightState.AgentStateR\x08redGhost\x12@\n\npink_ghost\x18\x03\

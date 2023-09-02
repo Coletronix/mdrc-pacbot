@@ -17,7 +17,7 @@
 #![allow(trivial_casts)]
 #![allow(unused_imports)]
 #![allow(unused_results)]
-//! Generated file from `src/robomodules/definitions/pacmanState.proto`
+//! Generated file from `src/robomodules/definitions/pacman_state.proto`
 
 /// Generated files are compatible only with the same version
 /// of protobuf runtime.
@@ -1257,7 +1257,7 @@ impl ::protobuf::reflect::ProtobufValue for PacmanState_Direction {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n-src/robomodules/definitions/pacmanState.proto\x12\ngameEngine\"\x8d\
+    \n.src/robomodules/definitions/pacman_state.proto\x12\ngameEngine\"\x8d\
     \x08\n\x0bPacmanState\x12:\n\x06pacman\x18\x01\x20\x02(\x0b2\".gameEngin\
     e.PacmanState.AgentStateR\x06pacman\x12?\n\tred_ghost\x18\x02\x20\x02(\
     \x0b2\".gameEngine.PacmanState.AgentStateR\x08redGhost\x12A\n\npink_ghos\

@@ -1,27 +1,27 @@
-use crate::robomodules::protos;
-use protobuf::Message;
-use tokio::io::AsyncReadExt;
-use tokio::net::TcpStream;
+use crate::robomodules::Client;
 
 mod robomodules;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut stream = TcpStream::connect("127.0.0.1:8888").await?;
+fn main() {
+    let mut client = Client::new("localhost", 11297);
+    client.subscribe(robomodules::MsgType::LightState).unwrap();
 
-    // Assuming the server sends the message length first as a 4-byte value
-    let mut length_buf = [0u8; 4];
-    stream.read_exact(&mut length_buf).await?;
-    let length = u32::from_be_bytes(length_buf);
+    let msg = client.msg_receiver.recv().unwrap();
 
-    let mut buffer = vec![0u8; length as usize];
-    stream.read_exact(&mut buffer).await?;
+    println!("{:?}", msg);
 
-    // Deserialize using protobuf generated code
-    let message = protos::lightState::LightState::parse_from_bytes(&buffer)?;
+    client
+        .unsubscribe(robomodules::MsgType::LightState)
+        .unwrap();
 
-    // Now you can access the fields of the `message`
-    println!("{:?}", message);
+    // wait 2s
+    std::thread::sleep(std::time::Duration::from_secs(2));
 
-    Ok(())
+    client.subscribe(robomodules::MsgType::FullState).unwrap();
+
+    let msg = client.msg_receiver.recv().unwrap();
+
+    println!("{:?}", msg);
+
+    client.close().unwrap();
 }

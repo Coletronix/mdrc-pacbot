@@ -4,8 +4,9 @@ fn main() {
     protoc_rust::Codegen::new()
         .out_dir("src/robomodules/protos")
         .inputs(&[
-            "src/robomodules/definitions/lightState.proto",
-            "src/robomodules/definitions/pacmanState.proto",
+            "src/robomodules/definitions/light_state.proto",
+            "src/robomodules/definitions/pacman_state.proto",
+            "src/robomodules/definitions/subscribe.proto",
         ])
         // .include("path/to/your")
         .run()
