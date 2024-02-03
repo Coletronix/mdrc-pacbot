@@ -26,7 +26,8 @@ use crate::grid::ComputedGrid;
 use crate::gui::colors::{
     TRANSLUCENT_GREEN_COLOR, TRANSLUCENT_RED_COLOR, TRANSLUCENT_YELLOW_COLOR,
 };
-use crate::gui::game::{run_game, GameWidget, PacmanStateRenderInfo};
+pub use crate::gui::game::PacmanStateRenderInfo;
+use crate::gui::game::{run_game, GameWidget};
 use crate::gui::physics::{run_physics, PhysicsRenderInfo};
 use crate::gui::stopwatch::StopwatchWidget;
 use crate::high_level::HighLevelContext;
@@ -273,7 +274,13 @@ impl Default for TabViewer {
             run_high_level(hl_game_state, target_pos_rw);
         });
         let (network_command_send, network_recv) = tokio::sync::mpsc::channel(10);
-        start_network_thread(network_recv, sensors.clone(), target_velocity.clone(), phys_render.clone());
+        start_network_thread(
+            network_recv,
+            sensors.clone(),
+            target_velocity.clone(),
+            phys_render.clone(),
+            pacman_render.clone(),
+        );
 
         let pacbot_pos = phys_render.read().unwrap().pacbot_pos;
 
@@ -737,7 +744,10 @@ impl PacbotWidget for PacbotSensorsWidget {
                 ))
             }
             for i in 0..3 {
-                self.messages.push((format!("Encoder {i}: {}", sensors.2[i]), PacbotWidgetStatus::Ok));
+                self.messages.push((
+                    format!("Encoder {i}: {}", sensors.2[i]),
+                    PacbotWidgetStatus::Ok,
+                ));
             }
         }
     }

@@ -88,7 +88,7 @@ pub(super) fn run_game(
 
             // step the game
             if !state.pacman_state.is_paused() {
-                state.pacman_state.force_step();
+                // state.pacman_state.force_step();
                 replay_send.send(()).unwrap()
             }
         }

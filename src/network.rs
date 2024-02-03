@@ -1,13 +1,17 @@
 //! Network communications with the Pico and the game server.
 
+use crate::gui::physics::PhysicsRenderInfo;
+use crate::gui::PacmanStateRenderInfo;
+use futures_util::StreamExt;
+use pacbot_rs::game_engine::GameEngine;
 use rapier2d::na::Vector2;
+use tokio_tungstenite::tungstenite::Message;
 use std::f32::consts::FRAC_PI_3;
 use std::ops::DerefMut;
 use std::sync::{Arc, RwLock};
 use std::time::{Duration, Instant};
 use std::{io, net::UdpSocket};
 use tokio::sync::mpsc::Receiver;
-use crate::gui::physics::PhysicsRenderInfo;
 
 /// Starts the network thread that communicates with the Pico and game server.
 /// This function does not block.
@@ -16,6 +20,7 @@ pub fn start_network_thread(
     sensors: Arc<RwLock<(bool, [u8; 8], [i64; 3], Instant)>>,
     target_velocity: Arc<RwLock<(Vector2<f32>, f32)>>,
     phys_render: Arc<RwLock<PhysicsRenderInfo>>,
+    pacman_state: Arc<RwLock<PacmanStateRenderInfo>>,
 ) {
     std::thread::Builder::new()
         .name("network thread".into())
@@ -25,7 +30,13 @@ pub fn start_network_thread(
                 .build()
                 .expect("error creating tokio runtime");
 
-            async_runtime.block_on(network_thread_main(receiver, sensors, target_velocity, phys_render));
+            async_runtime.block_on(network_thread_main(
+                receiver,
+                sensors,
+                target_velocity,
+                phys_render,
+                pacman_state,
+            ));
         })
         .unwrap();
 }
@@ -41,23 +52,24 @@ async fn network_thread_main(
     sensors: Arc<RwLock<(bool, [u8; 8], [i64; 3], Instant)>>,
     target_velocity: Arc<RwLock<(Vector2<f32>, f32)>>,
     phys_render: Arc<RwLock<PhysicsRenderInfo>>,
+    pacman_state: Arc<RwLock<PacmanStateRenderInfo>>,
 ) {
-    // let server_ip = "localhost";
-    // let websocket_port = 3002;
-    // let url = format!("ws://{server_ip}:{websocket_port}");
+    let server_ip = "localhost";
+    let websocket_port = 3002;
+    let url = format!("ws://{server_ip}:{websocket_port}");
 
     // Establish the WebSocket connection.
-    // let mut socket;
-    // if false {
-    //     println!("Connecting to {url}");
-    //     let (new_socket, response) = tokio_tungstenite::connect_async(url)
-    //         .await
-    //         .expect("error connecting to game server");
-    //     socket = Some(new_socket);
-    //     println!("Connected; status = {}", response.status());
-    // } else {
-    //     socket = None;
-    // }
+    let mut socket;
+    if true {
+        println!("Connecting to {url}");
+        let (new_socket, response) = tokio_tungstenite::connect_async(url)
+            .await
+            .expect("error connecting to game server");
+        socket = Some(new_socket);
+        println!("Connected; status = {}", response.status());
+    } else {
+        socket = None;
+    }
 
     let mut pico_address = "192.168.4.16:20001".to_string();
 
@@ -74,14 +86,19 @@ async fn network_thread_main(
     // Handle incoming messages.
     loop {
         tokio::select! {
-            // message = socket.unwrap().next(), if socket.is_some() => {
-            //     match message {
-            //         Some(message) => {
-            //             println!("GOT MESSAGE:  {message:?}");
-            //         },
-            //         None => break, // This case means the WebSocket is closed.
-            //     }
-            // }
+            message = socket.as_mut().unwrap().next(), if socket.is_some() => {
+                match message {
+                    Some(message) => {
+                        println!("GOT MESSAGE:  {message:?}");
+                        if let Ok(Message::Binary(bytes)) = message {
+                            let mut pacman_state = pacman_state.write().unwrap();
+                            pacman_state.pacman_state.update(&bytes);
+                            drop(pacman_state);
+                        }
+                    },
+                    None => break, // This case means the WebSocket is closed.
+                }
+            },
             _ = pico_timer.tick() => {
                 let mut pico_connection = pico_connection.write().unwrap();
                 if let Some(pico) = &mut pico_connection.deref_mut() {
