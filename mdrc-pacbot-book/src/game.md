@@ -1,1 +1,0 @@
-Game documentation coming soon!
