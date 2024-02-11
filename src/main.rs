@@ -1,12 +1,12 @@
 use bevy::prelude::{Mut, Resource, World};
-use bevy_egui::{egui, EguiContexts};
+use eframe::egui::Ui;
 
-fn ui_system(mut contexts: EguiContexts, mut world: &World) {
+fn ui_system(mut world: &World, f: &mut Ui) {
     let mut app: Mut<App> = world.resource_mut();
-    egui::Window::new("Pacbot simulation").show(contexts.ctx_mut(), |f| app.update(f));
+    app.update(f);
 }
 
-pub trait PacbotWidget {
+pub trait UselessTrait {
     fn update(&mut self) {}
 }
 
