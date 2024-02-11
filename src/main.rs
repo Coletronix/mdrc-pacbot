@@ -1,10 +1,4 @@
 use bevy::prelude::{Mut, Resource, World};
-use eframe::egui::Ui;
-
-fn ui_system(mut world: &World, f: &mut Ui) {
-    let mut app: Mut<App> = world.resource_mut();
-    app.update(f);
-}
 
 pub trait UselessTrait {
     fn update(&mut self) {}
@@ -14,9 +8,12 @@ pub trait UselessTrait {
 struct App {}
 
 impl App {
-    fn update(&mut self, _: &mut eframe::Frame) {}
+    fn update(&mut self, _: &mut i32) {}
 }
 
 fn main() {
+    let world = World::new();
+    let mut app: Mut<App> = world.resource_mut();
+    app.update(0u32);
     println!("Hello world!")
 }
