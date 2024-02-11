@@ -1,7 +1,6 @@
 use bevy::prelude::{Mut, Resource, World};
-use bevy_egui::egui::{RichText, Ui, WidgetText};
+use bevy_egui::egui::{Ui, WidgetText};
 use bevy_egui::{egui, EguiContexts};
-use egui_dock::DockState;
 use std::cell::RefMut;
 
 fn ui_system(mut contexts: EguiContexts, mut world: RefMut<World>) {
@@ -10,73 +9,29 @@ fn ui_system(mut contexts: EguiContexts, mut world: RefMut<World>) {
         .show(contexts.ctx_mut(), |f| app.update(contexts.ctx_mut(), f));
 }
 
-#[derive(Copy, Clone)]
-pub enum Tab {
-    Grid,
-    Stopwatch,
-    Unknown,
-}
-
+#[derive(Default)]
 struct TabViewer {}
 
 impl egui_dock::TabViewer for TabViewer {
-    type Tab = Tab;
+    type Tab = ();
 
     fn title(&mut self, tab: &mut Self::Tab) -> WidgetText {
-        match tab {
-            Tab::Grid => WidgetText::from("Main Grid"),
-            Tab::Stopwatch => WidgetText::from("Stopwatch"),
-            _ => panic!("Widget did not declare a tab!"),
-        }
+        WidgetText::from("Stopwatch")
     }
 
     fn ui(&mut self, ui: &mut Ui, tab: &mut Self::Tab) {}
 }
 
-impl Default for TabViewer {
-    fn default() -> Self {
-        Self {}
-    }
-}
-
-impl TabViewer {
-    fn grid_ui(&mut self, ui: &mut Ui) {}
-}
-
-#[derive(Clone, Debug)]
-pub enum PacbotWidgetStatus {
-    Ok,
-    Warn(String),
-    Error(String),
-    NotApplicable,
-}
-
 pub trait PacbotWidget {
     fn update(&mut self) {}
-    fn display_name(&self) -> &'static str;
-    fn button_text(&self) -> RichText;
-    fn tab(&self) -> Tab {
-        Tab::Unknown
-    }
-    fn overall_status(&self) -> &PacbotWidgetStatus {
-        &PacbotWidgetStatus::NotApplicable
-    }
-
-    fn messages(&self) -> &[(String, PacbotWidgetStatus)] {
-        &[]
-    }
 }
 
 #[derive(Resource)]
-struct App {
-    tree: DockState<Tab>,
-}
+struct App {}
 
 impl Default for App {
     fn default() -> Self {
-        Self {
-            tree: DockState::new(vec![Tab::Grid]),
-        }
+        Self {}
     }
 }
 impl App {
