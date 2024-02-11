@@ -112,7 +112,6 @@ impl<'a> Default for TabViewer<'a> {
             pointer_pos: None,
             background_color: Color32::BLACK,
 
-            world_to_screen: None,
             bevy_world: None,
         }
     }
@@ -404,7 +403,7 @@ impl App {
                         &(match tab_viewer.pointer_pos {
                             None => "".to_string(),
                             Some(pos) => {
-                                let pos = world_to_screen.inverse().map_point(pos);
+                                // let pos = world_to_screen.inverse().map_point(pos);
                                 format!("({:.1}, {:.1})", pos.x, pos.y)
                             }
                         }),

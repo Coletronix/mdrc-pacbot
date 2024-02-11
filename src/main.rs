@@ -45,9 +45,5 @@ pub struct UserSettings {
 pub struct StandardGridResource(StandardGrid);
 
 fn main() {
-    App::new()
-        .add_plugins(MinimalPlugins)
-        .add_plugins((NetworkPlugin, PhysicsPlugin))
-        .add_systems(Update, run_high_level)
-        .run();
+    println!("Hello world!")
 }
