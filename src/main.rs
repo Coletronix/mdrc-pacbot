@@ -15,5 +15,4 @@ fn main() {
     let world = World::new();
     let mut app: Mut<App> = world.resource_mut();
     app.update(0u32);
-    println!("Hello world!")
 }
